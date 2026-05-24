@@ -8,80 +8,78 @@
 body {
   background: #002339;
   color: #fff;
+  min-height: 100vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .container {
-  margin: 12% auto;
-  width: 90%;
-  max-width: 700px;
-}
-
-/* Isko flex rakha hai taaki input ek taraf aur saare icons dusri taraf ho jayein */
-.password-display {
   width: 100%;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  background: #fff;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 20px;
-  border-radius: 5px;
-  gap: 15px; /* Box ke andar elements ka gap */
-}
-
-/* Input field ko baki bachi hui poori jagah de di */
-.password-display input {
-  border: 0;
-  font-size: 18px;
-  outline: 0;
-  background: transparent;
-  flex: 1; /* Yeh baki bachi width khud le lega */
-}
-
-/* Dono icons-box ko ek sath align karne ke liye aur unhe paas lane ke liye */
-.password-display .icons-box {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* Eye icon aur Copy image ke beech ka exact space */
-  cursor: pointer;
-}
-
-/* FontAwesome eye icons ka standard size */
-.password-display .icons-box i {
-  font-size: 20px;
-  color: #555;
-  margin-left: 350px;
-}
-
-/* Copy image aur baki images ka size corection */
-.password-display img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-  cursor: pointer;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .container h1 {
-  font-size: 45px;
+  font-size: clamp(28px, 5vw, 42px);
   font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: 10px;
 }
 
 .container h1 span {
   color: #019f55;
   border-bottom: 3px solid #019f55;
-  padding-bottom: 7px;
+  padding-bottom: 5px;
 }
 
-.container button img {
-  width: 30px;
+.password-display {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 25px;
+  background: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-radius: 6px;
+  gap: 15px;
+}
+
+.password-display input {
+  border: 0;
+  font-size: clamp(16px, 4vw, 18px);
+  outline: 0;
+  background: transparent;
+  flex: 1;
+  min-width: 0;
+  -webkit-appearance: none;
+}
+
+.password-display .icons-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.password-display .icons-box i {
+  font-size: 20px;
+  color: #555;
   cursor: pointer;
-  margin-right: 10px;
+}
+
+.password-display img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  cursor: pointer;
 }
 
 .container button {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,32 +88,69 @@ body {
   border: 0;
   padding: 15px 20px;
   font-size: 18px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+  -webkit-appearance: none;
+}
+
+@media (min-width: 480px) {
+  .container button {
+    width: auto;
+    display: inline-flex;
+  }
+}
+
+.container button img {
+  width: 24px;
+  margin-right: 10px;
 }
 
 .container button:hover {
-  background: #019f55;
-  color: #ffffff;
-  box-shadow: 0 0 10px #019f55;
+  background: #018546;
+  box-shadow: 0 4px 15px rgba(1, 159, 85, 0.4);
 }
 
-.msg-container {
-  height: 25px;
+.copy-msg {
+  min-height: 30px;
   margin-top: 15px;
-}
-
-.container #copy-msg {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 #copy-msg {
   display: block;
-  font-size: 16px;
+  font-size: 15px;
   color: #fff;
   font-weight: 600;
-  padding-top: 10px;
-  height: 20px;
+  text-align: center;
 }
+
+/* 
+======================================================================
+MY REFACTORING NOTES (SELECTOR BY SELECTOR CHANGES):
+======================================================================
+
+1. In body selector:
+   - Maine 'min-height: 100vh;', 'display: flex;', 'justify-content: center;' aur 'align-items: center;' ko add kiya taki isse mera pura content website ke exact center me aa jaye.
+   - Maine 'padding: 20px;' ko add kiya taki isse mobile screens par card dono sides se screen se na chipke.
+
+2. In .container h1 and .password-display input selectors:
+   - Maine 'font-size: clamp(...);' ko add kiya taki isse font-size mobile, tablet aur desktop ke hisab se automatic bina layout tode barabar adjust ho jaye.
+
+3. In .password-display input selector:
+   - Maine 'flex: 1;' aur 'min-width: 0;' ko add kiya taki isse input box bachi hui saari jagah le sake aur eye icons ko right side me dhakel de.
+   - Maine '-webkit-appearance: none;' ko add kiya taki isse iPhone (iOS) aur Mac Safari browsers par input box ka default styling layout ko kharab na kare.
+
+4. In .password-display .icons-box selector:
+   - Maine HTML ke mutabik bina kisi badlav ke sirf '.password-display .icons-box' use kiya hai aur usme 'display: flex;', 'align-items: center;' aur 'gap: 12px;' rakha hai taki isse dono box ke andar ke elements ek line me barabar spacing par rahein.
+   - Maine 'flex-shrink: 0;' ko add kiya taki isse choti mobile screens par icons aur copy image squeeze (pichak) na ho.
+
+5. In .password-display .icons-box i selector:
+   - Maine pehle ka 'margin-left: 350px;' poori tarah hata diya, taki isse eye icons automatic copy image ke bilkul paas aa jayein aur desktop/mobile dono par layout responsive rahe.
+
+6. In .container button selector:
+   - Maine 'width: 100%;' ko add kiya taki isse mobile par poora button touch karne me aasan ho jaye.
+   - Aur maine '@media (min-width: 480px)' me 'width: auto;' add kiya taki isse tablet aur desktop par button normal inline-size me dikhe.
+======================================================================
+*/
